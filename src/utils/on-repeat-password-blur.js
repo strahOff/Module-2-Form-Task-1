@@ -5,7 +5,6 @@ export const onRepeatPasswordBlur = (
 ) => {
 	let error = null;
 	if (repeatPassword !== password) {
-		console.log(password, repeatPassword);
 		error = "Пароли должны совпадать";
 	}
 	setRepeatPasswordError(error);
