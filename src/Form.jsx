@@ -6,6 +6,17 @@ import { onInputBlur } from "./utils/on-login-blur";
 import { onRepeatPasswordBlur } from "./utils/on-repeat-password-blur";
 import { onPasswordBlur } from "./utils/on-password-blur.js";
 import { onPasswordChange } from "./utils/on-password-change";
+import { loginChangeScheme, loginBlurScheme } from "./yupSchemas/yupSchemas.js";
+
+const validateAndGetErrorMessage = (scheme, value) => {
+  let errorMessage = null;
+  try {
+    scheme.validateSync(value);
+  } catch ({ errors }) {
+    errorMessage = errors[0];
+  }
+  return errorMessage;
+};
 
 const Form = () => {
   const [login, setLogin] = useState("");
@@ -34,7 +45,13 @@ const Form = () => {
           )
         }
         onLoginChange={(event) => {
-          onLoginChange(event, setLogin, setLoginError);
+          onLoginChange(
+            event,
+            loginChangeScheme,
+            validateAndGetErrorMessage,
+            setLogin,
+            setLoginError,
+          );
         }}
         onInputBlur={(event) =>
           onInputBlur(
@@ -44,6 +61,8 @@ const Form = () => {
             loginError,
             password,
             setPasswordError,
+            loginBlurScheme,
+            validateAndGetErrorMessage,
           )
         }
         onPasswordBlur={(event) => onPasswordBlur(event, setPasswordError)}

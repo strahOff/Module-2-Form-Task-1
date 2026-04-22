@@ -1,19 +1,18 @@
 export const onInputBlur = (
-	event,
-	login,
-	setLoginError,
-	loginError,
-	password,
-	setPasswordError,
+  event,
+  login,
+  setLoginError,
+  loginError,
+  password,
+  setPasswordError,
+  loginBlurScheme,
+  validateAndGetErrorMessage,
 ) => {
-	let error = null;
-	if (login.length <= 3 && login.length > 0) {
-		error = "Неверный логин. Должен быть больше 3 символов.";
-		setLoginError(error);
-	}
-	if (loginError === null) {
-		if (password.length === 0) {
-			setPasswordError("Введите пароль");
-		}
-	}
+  const error = validateAndGetErrorMessage(loginBlurScheme, login);
+  setLoginError(error);
+  if (loginError === null) {
+    if (password.length === 0) {
+      setPasswordError("Введите пароль");
+    }
+  }
 };
